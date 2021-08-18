@@ -5,24 +5,39 @@ Description: >
 
   Sample SAM Template for hello-goodbye
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
 
 Resources:
   HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.8
       Events:
         HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api
           Properties:
             Path: /hello
             Method: get
+        HelloWorldName:
+          Type: Api
+          Properties:
+            Path: /hello/{name}
+            Method: get
+        GoodbyeWorld:
+          Type: Api
+          Properties:
+            Path: /goodbye
+            Method: get
+  HelloWorldFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn: HelloWorldFunction
+    Properties:
+      RetentionInDays: 7
+      LogGroupName: !Join ["/", ["/aws/lambda", !Ref HelloWorldFunction]]
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
