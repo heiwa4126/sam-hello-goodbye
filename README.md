@@ -1,4 +1,4 @@
-# hello-goodbye
+# sam-hello-goodbye
 
 1個のAWS Lambdaで複数のapi gwを受けるサンプル。
 Pythonとかよりは、GoLangなんかだと効き目があるのではないか。
