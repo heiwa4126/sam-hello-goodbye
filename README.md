@@ -8,6 +8,31 @@ Pythonとかよりは、GoLangなんかだと効き目があるのではない�
 
 これも参考: [go言語のwebフレームワークechoとpythonのwebフレームワークflaskの速度を比較してみた](https://qiita.com/shibacow/items/320679971bfd5d834b80)も参考
 
+# インストール
+
+SAMなのでいつもどおりに
+```sh
+sam build
+sam deploy --guided   # 2回め以降は --guided ぬきで
+```
+
+でもこのプロジェクトはデプロイしないでも
+```sh
+sam build
+sam local start-api
+# tmuxだったら画面分割して
+curl http://localhost:3000/hello
+curl http://localhost:3000/hello/test
+curl http://localhost:3000/goodbye/test
+```
+で十分。
+
+
+# TODO
+
+他のトリガ(Cloudwatchのschedule)なども混ぜてみる。
+
+
 # 以下sam initそのまま
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
