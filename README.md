@@ -3,6 +3,10 @@
 1個のAWS Lambdaで複数のapi gwを受けるサンプル。
 Pythonとかよりは、GoLangなんかだと効き目があるのではないか。
 
+[AWS LambdaでPython+Flask環境を作成する](https://ryosh.github.io/posts/20210421/)
+みたいに、api gwでなんでもかんでも受ける、にする手もありそう。
+
+これも参考: [go言語のwebフレームワークechoとpythonのwebフレームワークflaskの速度を比較してみた](https://qiita.com/shibacow/items/320679971bfd5d834b80)も参考
 
 # 以下sam initそのまま
 

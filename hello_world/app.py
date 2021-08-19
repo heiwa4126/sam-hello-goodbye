@@ -5,7 +5,7 @@ def lambda_handler(event, context):
     """Sample pure Lambda function"""
     # print(event)
 
-    r = event.get("resource", "/hello")  # for `sam invoke`
+    r = event.get("resource", "/hello")  # default for `sam invoke`
     if r == "/hello":
         msg = "hello world!"
     elif r == "/hello/{name}":

@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   hello-goodbye
 
-  Sample SAM Template for hello-goodbye
+  Sample SAM Template. Single Lambda, many API
 
 Globals:
   Function:
@@ -17,17 +17,17 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.8
       Events:
-        HelloWorld:
+        Hello:
           Type: Api
           Properties:
             Path: /hello
             Method: get
-        HelloWorldName:
+        HelloName:
           Type: Api
           Properties:
             Path: /hello/{name}
             Method: get
-        GoodbyeWorld:
+        Goodbye:
           Type: Api
           Properties:
             Path: /goodbye
