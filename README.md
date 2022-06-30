@@ -16,16 +16,33 @@ sam build
 sam deploy --guided   # 2回め以降は --guided ぬきで
 ```
 
-でもこのプロジェクトはデプロイしないでも
+
+## ローカルのテスト
+
+このプロジェクトはデプロイしないでも
 ```sh
 sam build
 sam local start-api
 # tmuxだったら画面分割して
 curl http://localhost:3000/hello
-curl http://localhost:3000/hello/test
-curl http://localhost:3000/goodbye/test
+curl http://localhost:3000/hello/yamada
+curl http://localhost:3000/goodbye
 ```
 で十分。
+
+
+## デプロイした場合のテスト
+
+```bash
+./make_env.sh && . ./tmp/env.sh
+```
+で環境変数をセットしたら
+
+```bash
+curl "$STACK_url/hello"
+curl "$STACK_url/hello/yoshida"
+curl "$STACK_url/goodbye"
+```
 
 
 # TODO
