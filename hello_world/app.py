@@ -1,71 +1,54 @@
 import json
+from aws_lambda_powertools import Logger, Tracer
+from aws_lambda_powertools.logging import correlation_paths
+from aws_lambda_powertools.event_handler import APIGatewayRestResolver
+
+tracer = Tracer()
+logger = Logger()
+app = APIGatewayRestResolver()
 
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function"""
-    # print(event)
-
-    r = event.get("resource", "/hello")  # default for `sam invoke`
-
-    if r == "/hello":
-        return hello(event, context)
-    elif r == "/hello/{name}":
-        return hello_name(event, context)
-    elif r == "/goodbye":
-        return goodbye(event, context)
-    elif r == "/add":
-        if event["httpMethod"] == "GET":
-            return add_get(event, context)
-        if event["httpMethod"] == "POST":
-            return add_post(event, context)
-
-    return res1("(undefined)")
+    return app.resolve(event, context)
 
 
 def res1(msg):
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "message": msg,
-            }
-        ),
-    }
+    return {"message": msg}
 
 
 def res2(n):
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "result": n,
-            }
-        ),
-    }
+    return {"result": n}
 
 
-def hello(event, context):
+@app.get("/hello")
+@tracer.capture_method
+def hello():
     return res1("hello world!")
 
 
-def hello_name(event, context):
-    p = event["pathParameters"]
-    msg = f"""hello {p["name"]}!"""
-    return res1(msg)
+@app.get("/hello/<name>")
+@tracer.capture_method
+def hello_name(name):
+    return res1(f"hello {name}!")
 
 
-def goodbye(event, context):
+@app.get("/goodbye")
+@tracer.capture_method
+def goodbye():
     return res1("goodbye cruel world...")
 
 
-def add_get(event, context):
+@app.get("/add")
+@tracer.capture_method
+def add_get():
     # 存在だけはAPIGWでチェック済み。数字になるかは不明
-    q = event["queryStringParameters"]
-    a = float(q["a"])
-    b = float(q["b"])
+    a = float(app.current_event.get_query_string_value(name="a", default_value=0))
+    b = float(app.current_event.get_query_string_value(name="b", default_value=0))
     return res2(a + b)
 
 
-def add_post(event, context):
-    q = json.loads(event["body"])
+@app.post("/add")
+@tracer.capture_method
+def add_post():
+    q = app.current_event.json_body
     return res2(q["a"] + q["b"])

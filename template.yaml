@@ -13,6 +13,11 @@ Parameters:
   StageName:
     Type: String
     Default: dev
+  # PowerToolsLayer:
+  #   Type: String
+  #   Default: arn:aws:lambda:ap-northeast-3:017000801446:layer:AWSLambdaPowertoolsPython:11
+  #   # for Osaka region.
+  #   # see https://aws.amazon.com/jp/builders-flash/202203/lambda-powertools-python-1/?awsf.filter-name=*all
 
 Resources:
   HelloRestApi:
@@ -38,6 +43,8 @@ Resources:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.9
+      # Layers:
+      #   - !Ref PowerToolsLayer
       Events:
         Hello:
           Type: Api
