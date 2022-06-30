@@ -6,6 +6,8 @@ Pythonとかよりは、GoLangなんかだと効き目があるのではない�
 [AWS LambdaでPython+Flask環境を作成する](https://ryosh.github.io/posts/20210421/)
 みたいに、api gwでなんでもかんでも受ける、にする手もありそう。
 
+最近だったらこれか? [aws\_lambda\_powertools\.event\_handler](https://awslabs.github.io/aws-lambda-powertools-python/latest/core/event_handler/api_gateway/#api-gateway-rest-api)
+
 これも参考: [go言語のwebフレームワークechoとpythonのwebフレームワークflaskの速度を比較してみた](https://qiita.com/shibacow/items/320679971bfd5d834b80)も参考
 
 # インストール
