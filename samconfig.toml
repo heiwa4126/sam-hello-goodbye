@@ -2,8 +2,10 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "hello-goodbye"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1avr0ylgvc8ng"
-s3_prefix = "hello-goodbye"
-region = "ap-northeast-1"
+stack_name = "sam-hello-goodbye"
+s3_prefix = "sam-hello-goodbye"
+region = "ap-northeast-3"
 capabilities = "CAPABILITY_IAM"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1j9xk3zskqd3z"
+disable_rollback = true
+image_repositories = []
