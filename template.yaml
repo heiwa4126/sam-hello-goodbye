@@ -37,14 +37,25 @@ Resources:
             b:
               type: number
 
+  PowerToolsLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: python3.9
+    Properties:
+      Description: "AWS Lambda Powertools Python"
+      ContentUri: layer/LambdaPowertoolsPython
+      CompatibleRuntimes:
+        - python3.9
+
+
   HelloFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.9
-      # Layers:
-      #   - !Ref PowerToolsLayer
+      Layers:
+        - !Ref PowerToolsLayer
       Events:
         Hello:
           Type: Api
