@@ -9,7 +9,29 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  StageName:
+    Type: String
+    Default: dev
+
 Resources:
+  HelloRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref StageName
+      Models:
+        ab:
+          type: object
+          description: 'something like {"a":1,"b":2}'
+          required:
+            - a
+            - b
+          properties:
+            a:
+              type: number
+            b:
+              type: number
+
   HelloFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -20,21 +42,25 @@ Resources:
         Hello:
           Type: Api
           Properties:
+            RestApiId: !Ref HelloRestApi
             Path: /hello
             Method: get
         HelloName:
           Type: Api
           Properties:
+            RestApiId: !Ref HelloRestApi
             Path: /hello/{name}
             Method: get
         Goodbye:
           Type: Api
           Properties:
+            RestApiId: !Ref HelloRestApi
             Path: /goodbye
             Method: get
         AddGET:
           Type: Api
           Properties:
+            RestApiId: !Ref HelloRestApi
             Path: /add
             Method: get
             RequestParameters:
@@ -47,9 +73,14 @@ Resources:
         AddPOST:
           Type: Api
           Properties:
+            RestApiId: !Ref HelloRestApi
             Path: /add
             Method: post
-
+            RequestModel:
+              Model: ab
+              Required: true
+              ValidateBody: true
+              ValidateParameters: false
 
   HelloFunctionLogGroup:
     Type: AWS::Logs::LogGroup
@@ -61,4 +92,4 @@ Resources:
 Outputs:
   url:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${ServerlessRestApiProdStage}"
+    Value: !Sub "https://${HelloRestApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}"

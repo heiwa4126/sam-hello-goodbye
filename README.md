@@ -44,12 +44,14 @@ curl http://localhost:3000/goodbye
 curl "$STACK_url/hello"
 curl "$STACK_url/hello/yoshida"
 curl "$STACK_url/goodbye"
+curl "$STACK_url/add?a=1&b=2"
+curl -XPOST "$STACK_url/add" -H "Content-Type: application/json" -d '{"a":1,"b":2}'
 ```
 
 
 # TODO
 
-他のトリガ(Cloudwatchのschedule)なども混ぜてみる。
+validationのクエリのほうがうまく動かない。bodyのほうはちゃんと動く。
 
 
 # 以下sam initそのまま
