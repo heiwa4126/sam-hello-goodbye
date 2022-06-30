@@ -32,6 +32,24 @@ Resources:
           Properties:
             Path: /goodbye
             Method: get
+        AddGET:
+          Type: Api
+          Properties:
+            Path: /add
+            Method: get
+            RequestParameters:
+              # SAMで手軽にやれるのはここまでぐらい。
+              # https://stackoverflow.com/questions/57860631/how-to-add-a-request-validator-in-a-aws-sam-template-for-awsserverlessapi
+              - method.request.querystring.a:
+                  Required: true
+              - method.request.querystring.b:
+                  Required: true
+        AddPOST:
+          Type: Api
+          Properties:
+            Path: /add
+            Method: post
+
 
   HelloFunctionLogGroup:
     Type: AWS::Logs::LogGroup

@@ -1,7 +1,13 @@
 #!/bin/sh -ue
-curl http://localhost:3000/hello
+# call after `sam build && sam local start-api`
+STACK_url=http://localhost:3000
+# curl "$STACK_url/hello"
+# echo
+# curl "$STACK_url/hello/yoshida"
+# echo
+# curl "$STACK_url/goodbye"
+# echo
+curl "$STACK_url/add?a=1&b=2"
 echo
-curl http://localhost:3000/hello/yamada
-echo
-curl http://localhost:3000/goodbye
+curl -XPOST "$STACK_url/add" -H "Content-Type: application/json" -d '{"a":1,"b":2}'
 echo
