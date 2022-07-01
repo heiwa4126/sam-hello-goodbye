@@ -56,6 +56,16 @@ sam local start-api
 
 # メモ
 
+## コンソールからAWS API Gatewayでバリデータなどをいじった後
+
+再デプロイしないと反映されない。exportしても変化がない。
+
+以下手順を参照:
+[REST API をステージに再デプロイする](https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/how-to-deploy-api-with-console.html#apigateway-how-to-redeploy-api-console)
+
+CLIもあると思うが調べてない。あとstackのドリフトは再デプロイしても検出できない。
+
+ほか一覧: [再デプロイが必要な REST API の更新 - Amazon API Gateway](https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/updating-api.html)
 ## validation
 
 validationのクエリのほうがうまく動かない。bodyのほうはちゃんとmodelのバリデーションが動く。
@@ -64,12 +74,3 @@ validationのクエリのほうがうまく動かない。bodyのほうはちゃ
 x-amazon-apigateway-request-validatorをサポートしてないと書いてあるので間違ってない。
 
 全部OpenAPIで書けばできると思うが、[Event: の Api](https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/sam-property-function-api.html)は便利すぎる。
-
-
-## AWS API Gatewayでバリデータなどをいじった後
-
-再デプロイしないと反映されない。exportしても変化がない。
-
-ここ参照。[REST API をステージに再デプロイする](https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/how-to-deploy-api-with-console.html#apigateway-how-to-redeploy-api-console)
-
-CLIもあると思うが調べてない。
