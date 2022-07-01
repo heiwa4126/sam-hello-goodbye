@@ -24,19 +24,23 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
+      EndpointConfiguration:
+        Type: REGIONAL
+        # modelやvalidationをいじってるときはEDGEよりREGIONALがいいみたい
       Models:
         ab:
           type: object
           description: 'something like {"a":1,"b":2}'
           required:
-            - a
-            - b
+            - 'a'
+            - 'b'
           properties:
             a:
               type: number
             b:
               type: number
 
+  # AWSのレイヤーを使うと、ローカルデバッグができない
   PowerToolsLayer:
     Type: AWS::Serverless::LayerVersion
     Metadata:
@@ -46,7 +50,6 @@ Resources:
       ContentUri: layer/LambdaPowertoolsPython
       CompatibleRuntimes:
         - python3.9
-
 
   HelloFunction:
     Type: AWS::Serverless::Function
@@ -86,8 +89,10 @@ Resources:
               # https://stackoverflow.com/questions/57860631/how-to-add-a-request-validator-in-a-aws-sam-template-for-awsserverlessapi
               - method.request.querystring.a:
                   Required: true
+                  # schema: type: number とかはない. method.request.querynumberとかもない
               - method.request.querystring.b:
                   Required: true
+
         AddPOST:
           Type: Api
           Properties:
@@ -100,6 +105,24 @@ Resources:
               ValidateBody: true
               ValidateParameters: false
 
+  # ValidateQueryOnly:
+  #   # Validatorは作れるけど(CFnだから)、IDをひっつける方法がない
+  #   # OpenAPIで書くしかなさそう...
+  #   Type: AWS::ApiGateway::RequestValidator
+  #   Properties:
+  #     Name: validate query only
+  #     RestApiId: !Ref HelloRestApi
+  #     ValidateRequestBody: false
+  #     ValidateRequestParameters: true
+
+  # ValidateBodyOnly: こっちはデフォルトの `body-only`があるので不要
+  #   Type: AWS::ApiGateway::RequestValidator
+  #   Properties:
+  #     Name: validate body only
+  #     RestApiId: !Ref HelloRestApi
+  #     ValidateRequestBody: true
+  #     ValidateRequestParameters: false
+
   HelloFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     DependsOn: HelloFunction
@@ -111,3 +134,11 @@ Outputs:
   url:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${HelloRestApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}"
+  api:
+    Description: "API Gateway ID"
+    Value: !Ref HelloRestApi
+  region:
+    Description: "API Region"
+    Value: !Ref AWS::Region
+  stage:
+    Value: !Ref StageName
